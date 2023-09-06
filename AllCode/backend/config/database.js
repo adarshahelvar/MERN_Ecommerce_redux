@@ -11,9 +11,9 @@ const connectDatabase = () => {
     .then((data) => {
       console.log(`Db connection to server: ${data.connection.host}`);
     })
-    .catch((error) => {
-      console.error(error);
-    });
+    // .catch((error) => {
+    //   console.error(error);
+    // });
 };
 
 module.exports = connectDatabase;
