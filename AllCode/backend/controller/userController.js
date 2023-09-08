@@ -121,9 +121,14 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
     resetPasswordExpire: { $gt: Date.now() },
   });
   if (!user) {
-    return next(new ErrorHandler("Reset password token is invalid or has been expired", 400));
+    return next(
+      new ErrorHandler(
+        "Reset password token is invalid or has been expired",
+        400
+      )
+    );
   }
-  if(req.body.password !== req.body.confirmPassword) {
+  if (req.body.password !== req.body.confirmPassword) {
     return next(new ErrorHandler("Password does not match", 400));
   }
   user.password = req.body.password;
@@ -134,21 +139,20 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-
 // Get user detailes
 
-exports.getUserDetails = catchAsyncError(async (req, res, next)=>{
- const user = await User.findById(req.user.id);
+exports.getUserDetails = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
 
- req.status(200).json({
-  success: true,
-  user
- })
-})
+  req.status(200).json({
+    success: true,
+    user,
+  });
+});
 
 // Update user password
 
-exports.updatePassword = catchAsyncError(async (req, res, next)=>{
+exports.updatePassword = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
   const isPasswordMatched = user.comparePassword(req.body.oldPassword);
   if (!isPasswordMatched) {
@@ -160,52 +164,89 @@ exports.updatePassword = catchAsyncError(async (req, res, next)=>{
   }
   user.password = req.body.newPassword;
   await user.save();
- 
+
   sendToken(user, 200, res);
- })
+});
 
+// Update user profile
 
- // Update user profile
-
-exports.updateProfile = catchAsyncError(async (req, res, next)=>{
+exports.updateProfile = catchAsyncError(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
-  }
-// We will add clodinary later
+  };
+  // We will add clodinary later
 
-const user  = await User.findByIdAndUpdate(req.user.id, newUserData,{
-  new:true,
-  runValidators: true,
-  useFindAndModify: false,
-})
-req.status(200).json({
-  success: true
- })
- })
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  req.status(200).json({
+    success: true,
+  });
+});
 
 // Get all users - admin only
 
-exports.getAllUser = catchAsyncError(async (req, res, next)=>{
+exports.getAllUser = catchAsyncError(async (req, res, next) => {
   const users = await User.find();
 
   res.status(200).json({
     success: true,
-    users
-  })
- })
+    users,
+  });
+});
 
-  //  Get single users - admin only
+//  Get single users - admin only
 
-exports.getSingleUser = catchAsyncError(async (req, res, next)=>{
+exports.getSingleUser = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
-  if(!user){
+  if (!user) {
     return next(new ErrorHandler(`User not found with ID: ${req.params.id}`));
   }
 
   res.status(200).json({
     success: true,
     user,
-  })
- })
+  });
+});
+
+// Update user Role -admin only
+
+exports.updateUserRole = catchAsyncError(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  if (!user) {
+    return next(new ErrorHandler(`User not found with ID: ${req.params.id}`));
+  }
+  req.status(200).json({
+    success: true,
+  });
+});
+
+// Delete user -admin only
+
+exports.deleteUser = catchAsyncError(async (req, res, next) => {
+  const user = await user.findById(req.params.id);
+  // We will remove clodinary later
+
+  if (!user) {
+    return next(new ErrorHandler(`User not found with ID: ${req.params.id}`));
+  }
+  await user.remove();
+  req.status(200).json({
+    success: true,
+    message: 'User removed successfully',
+  });
+});
