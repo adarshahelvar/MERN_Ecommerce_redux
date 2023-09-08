@@ -133,3 +133,15 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
   await user.save();
   sendToken(user, 200, res);
 });
+
+
+// Get user detailes
+
+exports.getUserDetails = catchAsyncError(async (req, res, next)=>{
+ const user = await User.findById(req.user.id);
+
+ req.status(200).json({
+  success: true,
+  user
+ })
+})
