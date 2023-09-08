@@ -193,11 +193,12 @@ exports.getAllUser = catchAsyncError(async (req, res, next)=>{
     success: true,
     users
   })
+ })
 
-  // Get single users - admin only
+  //  Get single users - admin only
 
 exports.getSingleUser = catchAsyncError(async (req, res, next)=>{
-  const users = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id);
 
   if(!user){
     return next(new ErrorHandler(`User not found with ID: ${req.params.id}`));
@@ -207,5 +208,4 @@ exports.getSingleUser = catchAsyncError(async (req, res, next)=>{
     success: true,
     user,
   })
- })
  })
