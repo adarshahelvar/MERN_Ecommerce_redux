@@ -1,3 +1,8 @@
+BACKEND SHOULD START WITH "NPM RUN DEV 
+FRONTEND SHOULD START WITH "NPM START "
+
+
+
 inside config.env place your testing mailid with password. 
 DO NOT PLACE YOUR PRIMARY OR ANY VALUABLE MAILID INSIDE CONFIG FILE.
 SMPT_MAIL = tempmail@gmail.com
