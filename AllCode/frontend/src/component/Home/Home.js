@@ -2,6 +2,7 @@ import React from 'react';
 import { CgMouse } from "react-icons/cg";
 import "./Home.css";
 import ProductCard from "./ProductCard.js";
+import MetaData from '../layout/MetaData';
 
 // Temp testing obj
 const product = {
@@ -14,6 +15,7 @@ const product = {
 const Home = () => {
   return (
     <>
+    <MetaData title="ECOMMERCE"/>
           <div className="banner">
             <p>Welcome to Ecommerce</p>
             <h1>FIND AMAZING PRODUCTS BELOW</h1>
