@@ -16,33 +16,40 @@ const product = {
 
 const Home = () => {
   const dispatch = useDispatch();
+  // const data = useSelector((state)=>state.products);
+  // console.log(data.products);
+  const { loading, error, products, productCount } = useSelector(
+    (state) => state.products
+  );
   useEffect(() => {
     dispatch(getProduct());
   }, [dispatch]);
 
   return (
     <>
-      <MetaData title="ECOMMERCE" />
-      <div className="banner">
-        <p>Welcome to Ecommerce</p>
-        <h1>FIND AMAZING PRODUCTS BELOW</h1>
-        <a href="#container">
-          <button>
-            Scroll <CgMouse />
-          </button>
-        </a>
-      </div>
-      <h2 className="homeHeading">Featured Products</h2>
-      <div className="container" id="container">
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-      </div>
+      {loading ? (
+        "Loading"
+      ) : (
+        <>
+          <MetaData title="ECOMMERCE" />
+          <div className="banner">
+            <p>Welcome to Ecommerce</p>
+            <h1>FIND AMAZING PRODUCTS BELOW</h1>
+            <a href="#container">
+              <button>
+                Scroll <CgMouse />
+              </button>
+            </a>
+          </div>
+          <h2 className="homeHeading">Featured Products</h2>
+          <div className="container" id="container">
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+          </div>
+        </>
+      )}
     </>
   );
 };
