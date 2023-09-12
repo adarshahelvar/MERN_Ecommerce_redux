@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData";
 import { getProduct } from "../../actions/productAction";
 import { useSelector, useDispatch } from "react-redux";
+import Loader from '../layout/Loader/Loader';
 
 // Temp testing obj
 const product = {
@@ -28,7 +29,7 @@ const Home = () => {
   return (
     <>
       {loading ? (
-        "Loading"
+        <Loader />
       ) : (
         <>
           <MetaData title="ECOMMERCE" />
