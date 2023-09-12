@@ -6,25 +6,25 @@ import MetaData from "../layout/MetaData";
 import { getProduct } from "../../actions/productAction";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from '../layout/Loader/Loader';
-
-// Temp testing obj
-const product = {
-  name: "Blue Tshirt",
-  images: [{ url: "https://i.ibb.co/DRST11n/1.webp" }],
-  price: "3000",
-  _id: "abhishek",
-};
+import { useAlert } from "react-alert";
 
 const Home = () => {
+
+  const alert = useAlert();
+
   const dispatch = useDispatch();
   // const data = useSelector((state)=>state.products);
   // console.log(data.products);
   const { loading, error, products, productCount } = useSelector(
     (state) => state.products
   );
+
   useEffect(() => {
+    if(error) {
+      return alert.error(error);
+    }
     dispatch(getProduct());
-  }, [dispatch]);
+  }, [dispatch, error]);
 
   return (
     <>
