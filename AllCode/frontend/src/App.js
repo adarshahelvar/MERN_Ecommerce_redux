@@ -8,6 +8,7 @@ import Home from "./component/Home/Home.js";
 import ProductDetails from "./component/Product/ProductDetails.js";
 import Products from "./component/Product/Products.js";
 import Search from './component/Product/Search.js';
+import LoginSignup from "./component/User/LoginSignUp";
 
 function App() {
   // This use effect is running to change font style and import font families
@@ -27,6 +28,7 @@ function App() {
         <Route exact path="/product/:id" Component={ProductDetails} />
         <Route exact path="/products" Component={Products} />
         <Route exact path="/search" Component={Search} />
+        <Route exact path="/login" Component={LoginSignup} />
         <Route path="/products/:keyword" component={Products} />
       </Routes>
       <Footer />
